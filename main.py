@@ -1,85 +1,38 @@
-import cv2
-import mediapipe as mp
-import csv
+import tkinter as tk
+import subprocess
+import sys
 import os
 
-file_csv_name = 'database.csv'
+# Caminho absoluto para o Python do ambiente virtual
+python_path = sys.executable
 
-file_exists = os.path.exists(file_csv_name)
+def exec_capture_gesture():
+    subprocess.Popen([python_path, "gesture_capture.py"])
 
-if not file_exists:
-    with open(file_csv_name , mode='w', newline='') as acrchive:
-        writer_csv = csv.writer(acrchive)
-        label = ['label']
-        for i in range(1 , 22):
-            label.append(f'{i}x')
-            label.append(f'{i}y')
-            label.append(f'{i}z')
-        writer_csv.writerow(label)
+def exec_train_model():
+    subprocess.Popen([python_path, "train_model.py"])
 
-camera = cv2.VideoCapture(0)
+def exec_gesture_recognition():
+    subprocess.Popen([python_path, "gesture_recognition.py"])
 
-camera.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+# Criar janela
+window = tk.Tk()
+window.title("Gesture Recognition Controller")
+width_window = 400
+height_window = 200
 
-if not camera.isOpened():
-    print(f"Error: Unable to access the camera.")
-    exit()
+width_screen = window.winfo_screenwidth()
+height_screen = window.winfo_screenheight()
 
-mp_hands = mp.solutions.hands
-mp_drawing = mp.solutions.drawing_utils
+pos_x = (width_screen // 2) - (width_window // 2)
+pos_y = (height_screen // 2) - (height_window // 2)
 
-hands = mp_hands.Hands(
-    static_image_mode=False,       
-    max_num_hands=1,                
-    min_detection_confidence=0.7    
-)
+window.geometry(f"{width_window}x{height_window}+{pos_x}+{pos_y}")
 
-while True:
-    ret, frame = camera.read()
+# Botões
+tk.Button(window, text="Capture Gesture", command=exec_capture_gesture).pack(pady=10)
+tk.Button(window, text="Train Model", command=exec_train_model).pack(pady=10)
+tk.Button(window, text="Recognize Gestures", command=exec_gesture_recognition).pack(pady=10)
 
-    if not ret:
-        print("Error capturing image.")
-        break
-
-    frame = cv2.flip(frame, 1)
-    frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
-    results = hands.process(frame_rgb)
-
-    if results.multi_hand_landmarks:
-        for hand_landmarks in results.multi_hand_landmarks:
-
-            mp_drawing.draw_landmarks(
-                frame, 
-                hand_landmarks, 
-                mp_hands.HAND_CONNECTIONS
-            )
-
-            key = cv2.waitKey(1) & 0xFF
-            if key == ord('s'):
-                label = input("Type what you are referring to: ")
-                list_insert = [label]
-                x_wrist = hand_landmarks.landmark[0].x
-                y_wrist = hand_landmarks.landmark[0].y
-                z_wrist = hand_landmarks.landmark[0].z
-                for id_point ,landmark in enumerate(hand_landmarks.landmark):
-                    
-                        list_insert.append(landmark.x - x_wrist)
-                        list_insert.append(landmark.y - y_wrist)
-                        list_insert.append(landmark.z - z_wrist)
-                        
-                with open(file_csv_name , mode='a', newline='') as file:
-                    writer_csv = csv.writer(file)
-                    writer_csv.writerow(list_insert)
-                    print(f'Saving of [{label}] completed successfully.')
-
-
-    cv2.imshow(f"Camera - Press 'q' to leave or 's' to save.", frame)
-
-    if cv2.waitKey(1) == ord('q'):
-        break
-
-camera.release()
-cv2.destroyAllWindows()
-hands.close()
+# Iniciar janela
+window.mainloop()
