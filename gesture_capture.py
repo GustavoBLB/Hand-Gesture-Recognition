@@ -2,6 +2,12 @@ import cv2
 import mediapipe as mp
 import csv
 import os
+import tkinter as tk
+from tkinter import simpledialog
+
+root = tk.Tk()
+root.withdraw()
+
 
 file_csv_name = 'database.csv'
 
@@ -35,7 +41,37 @@ hands = mp_hands.Hands(
     min_detection_confidence=0.7    
 )
 
+
+def saving_gesture(file_csv_name, hand_landmarks):
+    label = simpledialog.askstring("Input", "Type what you are referring to:")
+
+    if not label:
+        print("No label entered.")
+        return
+
+    list_insert = [label]
+
+    # Referência no punho
+    x_wrist = hand_landmarks.landmark[0].x
+    y_wrist = hand_landmarks.landmark[0].y
+    z_wrist = hand_landmarks.landmark[0].z
+
+    for landmark in hand_landmarks.landmark:
+        list_insert.append(landmark.x - x_wrist)
+        list_insert.append(landmark.y - y_wrist)
+        list_insert.append(landmark.z - z_wrist)
+
+    with open(file_csv_name, mode='a', newline='') as file:
+        writer_csv = csv.writer(file)
+        writer_csv.writerow(list_insert)
+
+    print(f"Saving of [{label}] completed successfully.")
+
+
 while True:
+
+    bit_multi_saving = 0
+
     ret, frame = camera.read()
 
     if not ret:
@@ -57,27 +93,19 @@ while True:
             )
 
             key = cv2.waitKey(1) & 0xFF
-            if key == ord('s'):
-                label = input("Type what you are referring to: ")
-                list_insert = [label]
-                x_wrist = hand_landmarks.landmark[0].x
-                y_wrist = hand_landmarks.landmark[0].y
-                z_wrist = hand_landmarks.landmark[0].z
-                for id_point ,landmark in enumerate(hand_landmarks.landmark):
-                    
-                        list_insert.append(landmark.x - x_wrist)
-                        list_insert.append(landmark.y - y_wrist)
-                        list_insert.append(landmark.z - z_wrist)
-                        
-                with open(file_csv_name , mode='a', newline='') as file:
-                    writer_csv = csv.writer(file)
-                    writer_csv.writerow(list_insert)
-                    print(f'Saving of [{label}] completed successfully.')
 
+            if key == ord('m'):
+                bit_multi_saving = 1
+
+            if bit_multi_saving == 1:
+                print('oi')
+            else:
+                if key == ord('s'):
+                    saving_gesture(file_csv_name, hand_landmarks)
 
     cv2.imshow(f"Camera - Press 'q' to leave or 's' to save.", frame)
 
-    if cv2.waitKey(1) == ord('q'):
+    if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
 camera.release()
