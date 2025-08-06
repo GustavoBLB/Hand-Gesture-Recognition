@@ -4,6 +4,7 @@ import csv
 import os
 import tkinter as tk
 from tkinter import simpledialog
+from tkinter import messagebox
 
 root = tk.Tk()
 root.withdraw()
@@ -42,8 +43,7 @@ hands = mp_hands.Hands(
 )
 
 
-def saving_gesture(file_csv_name, hand_landmarks):
-    label = simpledialog.askstring("Input", "Type what you are referring to:")
+def saving_gesture(file_csv_name, hand_landmarks , label):
 
     if not label:
         print("No label entered.")
@@ -67,10 +67,10 @@ def saving_gesture(file_csv_name, hand_landmarks):
 
     print(f"Saving of [{label}] completed successfully.")
 
+bit_multi_saving = 0
+label = None
 
 while True:
-
-    bit_multi_saving = 0
 
     ret, frame = camera.read()
 
@@ -83,6 +83,16 @@ while True:
 
     results = hands.process(frame_rgb)
 
+    key = cv2.waitKey(1) & 0xFF
+
+    if key == ord('m'):
+        label = simpledialog.askstring("Input", "Type what you are going to refer:")
+
+        if label:  
+            messagebox.showinfo("Multi-saving mode",
+            f"Label: [{label}]\n\nPress 'S' to save\nPress 'L' to leave")
+            bit_multi_saving = 1
+
     if results.multi_hand_landmarks:
         for hand_landmarks in results.multi_hand_landmarks:
 
@@ -92,20 +102,48 @@ while True:
                 mp_hands.HAND_CONNECTIONS
             )
 
-            key = cv2.waitKey(1) & 0xFF
-
-            if key == ord('m'):
-                bit_multi_saving = 1
-
             if bit_multi_saving == 1:
-                print('oi')
+                if key == ord('s'):
+                    saving_gesture(file_csv_name, hand_landmarks , label)
             else:
                 if key == ord('s'):
-                    saving_gesture(file_csv_name, hand_landmarks)
+                    label = simpledialog.askstring("Input", "Type what you are referring to:")
+                    saving_gesture(file_csv_name, hand_landmarks , label)
 
-    cv2.imshow(f"Camera - Press 'q' to leave or 's' to save.", frame)
+    if bit_multi_saving == 1 and key == ord('l'):
+        bit_multi_saving = 0
+        print('teste')
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    if bit_multi_saving == 1 and label:
+        cv2.putText(frame, 
+            f"Multi-saving [{label}]",
+            (10, 30), 
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.7, 
+            (0, 255, 0), 
+            2)
+
+        cv2.putText(frame, 
+            "Press 'S' to save", 
+            (10, 65), 
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.5, 
+            (0, 255, 255), 
+            2)
+
+        cv2.putText(frame, 
+            "Press 'L' to leave", 
+            (10, 100), 
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.5, 
+            (0, 255, 255), 
+            2)
+
+
+
+    cv2.imshow(f"Camera - Press 'q' to leave or 's' to save or 'm' for multi-saving", frame)
+
+    if key == ord('q'):
         break
 
 camera.release()

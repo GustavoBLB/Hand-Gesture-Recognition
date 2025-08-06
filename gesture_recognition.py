@@ -79,7 +79,14 @@ while True:
                 x = int(landmark.x * w)
                 y = int(landmark.y * h)
 
-                cv2.putText(frame, str(label_value), (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+                cv2.putText(frame,
+                            str(label_value), 
+                            (x, y - 10), 
+                            cv2.FONT_HERSHEY_SIMPLEX, 
+                            1, 
+                            (0, 255, 0), 
+                            2, 
+                            cv2.LINE_AA)
 
     cv2.imshow(f"Camera - Press 'q' to leave", frame)
 
