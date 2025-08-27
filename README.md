@@ -41,7 +41,7 @@ A compact end-to-end prototype that **captures hand landmarks**, **trains a clas
 ---
 
 ## 🧰 Tech Stack
-- **Python 3.10* 
+- *Python 3.10* 
 - **OpenCV**
 - **MediaPipe Hands**
 - **NumPy / Pandas**
