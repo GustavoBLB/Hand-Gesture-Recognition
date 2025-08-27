@@ -30,10 +30,7 @@ A compact end-to-end prototype that **captures hand landmarks**, **trains a clas
     ├─ gesture_recognition.py    # Live inference: draws landmarks and overlays the predicted letter
     ├─ database.csv              # (auto-created) Labeled samples dataset
     ├─ model.pkl                 # (auto-created) Trained KNN model
-    ├─ requirements.txt          # Pinned dependencies for Python 3.10
-    └─ docs/
-       ├─ demo.mp4               # (optional) Short demo for the README
-       └─ screenshot.png         # (optional) UI/recognition screenshot
+    └─ requirements.txt          # Pinned dependencies for Python 3.10 
 
 ### What each file does
 - **main.py** — small controller (Tkinter) with 3 buttons that run the scripts below.
@@ -44,7 +41,7 @@ A compact end-to-end prototype that **captures hand landmarks**, **trains a clas
 ---
 
 ## 🧰 Tech Stack
-- **Python 3.10** (recommended)
+- **Python 3.10* 
 - **OpenCV**
 - **MediaPipe Hands**
 - **NumPy / Pandas**
@@ -59,9 +56,7 @@ A compact end-to-end prototype that **captures hand landmarks**, **trains a clas
 MediaPipe doesn’t always support the newest Python releases. Use **Python 3.10** in a virtual environment for a smooth setup.
 
 ### 1) Install Python 3.10
-- **Windows:** download 3.10.x from python.org (check “Add Python to PATH” during install).
-- **macOS:** `brew install python@3.10` or use the python.org installer.
-- **Linux (Ubuntu example):** use your package manager or the `deadsnakes` PPA to install `python3.10`.
+-  download 3.10.x from python.org (check “Add Python to PATH” during install).
 
 ### 2) Create & activate a virtual environment
 
@@ -77,23 +72,8 @@ MediaPipe doesn’t always support the newest Python releases. Use **Python 3.10
 
 ### 3) Install dependencies
 
-Create a file named **requirements.txt** with the content below, then install it.
-
-**requirements.txt**
-    mediapipe==0.10.14
-    opencv-python==4.8.1.78
-    numpy==1.26.4
-    pandas==2.2.2
-    scikit-learn==1.3.2
-    joblib==1.3.2
-
-Install:
+With the requirements.txt file already included in the project, you can install all dependencies by running:
     pip install -r requirements.txt
-
-**Notes**
-- If Tkinter is missing on Linux: `sudo apt-get install python3.10-tk`.
-- On Windows, if OpenCV complains about MSVC runtime, install the **Microsoft Visual C++ Redistributable**.
-- On headless servers, consider `opencv-python-headless` instead of `opencv-python`.
 
 ### 4) Run the app
     python main.py
@@ -107,7 +87,6 @@ Install:
 ## 🧭 Roadmap
 - [ ] Add **full gesture/sign** recognition (beyond letters)
 - [ ] Improve dataset tooling (balancing, augmentation)
-- [ ] Make the `unknown` threshold configurable
 - [ ] Export/import datasets and models via the UI
 
 ---
@@ -115,13 +94,3 @@ Install:
 ## 🤝 Acknowledgements
 - [MediaPipe Hands](https://developers.google.com/mediapipe)
 - [scikit-learn](https://scikit-learn.org/)
-
----
-
-## 📄 License
-Choose a license (e.g., MIT) and add a `LICENSE` file.
-
----
-
-### Note on repositories
-For LinkedIn, keep this repo as the **stable snapshot** shown in your video and evolve new features in a separate **dev repo** or a `dev` branch.
