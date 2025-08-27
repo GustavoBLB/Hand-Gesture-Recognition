@@ -14,11 +14,14 @@ A compact end-to-end prototype that **captures hand landmarks**, **trains a clas
 
 ---
 
-## 🎬 Demo & Screens
-- **Demo video:** add your link here (e.g., LinkedIn post or `docs/demo.mp4`)
-- **Screenshot:** place an image at `docs/screenshot.png` and it will render below.
+## 🎬 Demo
 
-![App Screenshot](docs/screenshot.png)
+Check out the full demo video on LinkedIn:
+
+- [Watch the demo here](https://www.linkedin.com/seu-video-aqui)
+
+> The video shows the full flow: capturing, training, and recognizing gestures.
+
 
 ---
 
@@ -41,7 +44,7 @@ A compact end-to-end prototype that **captures hand landmarks**, **trains a clas
 ---
 
 ## 🧰 Tech Stack
-- *Python 3.10* 
+- **Python 3.10** 
 - **OpenCV**
 - **MediaPipe Hands**
 - **NumPy / Pandas**
