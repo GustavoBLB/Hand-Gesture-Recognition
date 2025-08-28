@@ -25,8 +25,6 @@ Check out the full demo video on LinkedIn:
 
 - [Watch the demo here](https://www.linkedin.com/seu-video-aqui)
 
-> The video shows the full flow: capturing, training, and recognizing gestures.
-
 
 ---
 
