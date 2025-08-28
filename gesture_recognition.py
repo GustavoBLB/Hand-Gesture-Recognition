@@ -3,6 +3,23 @@ import mediapipe as mp
 import joblib
 import numpy as np
 import pandas as pd
+import os
+import tkinter as tk
+from tkinter import messagebox
+
+root = tk.Tk()
+root.withdraw()
+
+model_file = "model.pkl"
+if not os.path.exists(model_file):
+    messagebox.showerror(
+    "Model not found",
+    "No model was found!\n\n"
+    "Please run the training (train_model.py) to generate model.pkl before running recognition."
+    )
+    exit()
+
+model = joblib.load(model_file)
 
 camera = cv2.VideoCapture(0)
 
