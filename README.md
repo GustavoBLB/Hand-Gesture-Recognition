@@ -1,4 +1,8 @@
-# GestuRecognizer — LIBRAS Hand Gesture Recognition
+# GestureRecognizer — LIBRAS Hand Gesture Recognition
+
+🌍 Available in: [English](README.md) | [Português](README.pt.md)
+
+**LIBRAS** (Brazilian Sign Language) is the official sign language used in Brazil, recognized by law and widely adopted for communication by the deaf community.
 
 A compact end-to-end prototype that **captures hand landmarks**, **trains a classifier**, and **recognizes the LIBRAS alphabet in real time** through a simple desktop UI.
 
