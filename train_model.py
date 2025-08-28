@@ -6,6 +6,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 import joblib
 import threading
+import os
 
 def show_results_window(text: str):
     win = tk.Toplevel(janela)
@@ -26,7 +27,18 @@ def show_results_window(text: str):
 
 def train_model():
 
-    data_csv = pd.read_csv("database.csv")
+    file_csv_name = "database.csv"
+    sample_csv_name = os.path.join("examples", "sample_database.csv")
+
+    if os.path.exists(file_csv_name):
+        messagebox.showinfo("Dataset", f"Using main dataset: {file_csv_name}")
+        data_csv = pd.read_csv(file_csv_name)
+    elif os.path.exists(sample_csv_name):
+        messagebox.showinfo("Dataset", f"No {file_csv_name} found.\nUsing sample dataset: {sample_csv_name}")
+        data_csv = pd.read_csv(sample_csv_name)
+    else:
+        messagebox.showerror("Error", "No dataset found!\n\nGenerate a database.csv with gesture_capture.py or add a sample_database.csv in examples/")
+        return
 
     coordinates_csv = data_csv.drop("label", axis=1)  
     labels_csv = data_csv["label"]
