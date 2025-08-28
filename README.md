@@ -12,6 +12,11 @@ A compact end-to-end prototype that **captures hand landmarks**, **trains a clas
 - **Recognize** letters in real time, overlaying the prediction on the video feed.
 - **Desktop UI (Tkinter)** with three actions: **Capture**, **Train**, **Recognize**.
 
+- **Fallback behavior**:
+  - If no `database.csv` is found, training automatically uses the `examples/sample_database.csv`.
+  - If no `model.pkl` is found, recognition prompts the user to train a model first.
+
+
 ---
 
 ## 🎬 Demo
@@ -31,15 +36,16 @@ Check out the full demo video on LinkedIn:
     ├─ gesture_capture.py        # Opens webcam, captures 21 landmarks (x,y,z), appends rows to database.csv
     ├─ train_model.py            # Loads CSV, trains scikit-learn KNN, shows metrics, saves model.pkl
     ├─ gesture_recognition.py    # Live inference: draws landmarks and overlays the predicted letter
-    ├─ database.csv              # (auto-created) Labeled samples dataset
-    ├─ model.pkl                 # (auto-created) Trained KNN model
-    └─ requirements.txt          # Pinned dependencies for Python 3.10 
+-   ├─ database.csv              # (auto-created) Labeled samples dataset
+-   ├─ model.pkl                 # (auto-created) Trained KNN model
++   ├─ examples/sample_database.csv  # Small demo dataset (used if database.csv is missing)
+    └─ requirements.txt          # Pinned dependencies for Python 3.10
 
 ### What each file does
 - **main.py** — small controller (Tkinter) with 3 buttons that run the scripts below.
 - **gesture_capture.py** — keys: `s` save sample, `m` enter multi-saving (set label once, then press `s` repeatedly), `l` leave multi-saving, `q` quit.
-- **train_model.py** — train/test split, trains **KNN (k=3)**, prints **accuracy**, **classification report**, **confusion matrix**; saves **model.pkl**.
-- **gesture_recognition.py** — live prediction; if **max probability < 0.9**, shows **unknown** to avoid overconfident guesses.
+- **train_model.py** — train/test split, trains **KNN (k=3)**, prints **accuracy**, **classification report**, **confusion matrix**, and saves **model.pkl**. If no `database.csv` is found, it uses `examples/sample_database.csv`.
+- **gesture_recognition.py** — live prediction; if **max probability < 0.9**, shows **unknown** to avoid overconfident guesses. If no `model.pkl` is found, it prompts the user to train the model first.
 
 ---
 
@@ -80,6 +86,15 @@ With the requirements.txt file already included in the project, you can install 
 
 ### 4) Run the app
     python main.py
+
+---
+
+### Quickstart with demo dataset
+If you just want to test without capturing new gestures:
+1. Run `train_model.py` → will use `examples/sample_database.csv` if no `database.csv` exists.
+2. Run `gesture_recognition.py` → will ask for `model.pkl`; if not found, `train_model.py` must be executed first.
+
+---
 
 **Tips**
 - If camera index 0 fails, change `cv2.VideoCapture(0)` to `cv2.VideoCapture(1)` (or 2, …).
