@@ -26,7 +26,7 @@ Um protótipo compacto de ponta a ponta que **captura marcos da mão**, **treina
 
 Confira o vídeo completo da demonstração no LinkedIn:
 
-- [Assista à demo aqui](https://www.linkedin.com/seu-video-aqui)
+- [Assista à demo aqui]([https://www.linkedin.com/seu-video-aqui](https://www.linkedin.com/feed/update/urn:li:activity:7367012715187310593/))
 
 ---
 
