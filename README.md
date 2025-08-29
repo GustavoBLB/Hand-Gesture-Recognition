@@ -36,9 +36,9 @@ Confira o vídeo completo da demonstração no LinkedIn:
     ├─ gesture_capture.py        # Abre a webcam, captura 21 marcos (x,y,z), adiciona linhas ao database.csv
     ├─ train_model.py            # Carrega CSV, treina KNN (scikit-learn), mostra métricas, salva model.pkl
     ├─ gesture_recognition.py    # Inferência ao vivo: desenha marcos e sobrepõe a letra prevista
--   ├─ database.csv              # (auto-criado) Dataset de amostras rotuladas
--   ├─ model.pkl                 # (auto-criado) Modelo KNN treinado
-+   ├─ examples/sample_database.csv  # Pequeno dataset de demonstração (usado se não houver database.csv)
+    ├─ database.csv              # (auto-criado) Dataset de amostras rotuladas
+    ├─ model.pkl                 # (auto-criado) Modelo KNN treinado
+    ├─ examples/sample_database.csv  # Pequeno dataset de demonstração (usado se não houver database.csv)
     └─ requirements.txt          # Dependências fixadas para Python 3.10
 
 ### O que cada arquivo faz
